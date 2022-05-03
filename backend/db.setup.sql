@@ -42,3 +42,5 @@ CREATE TABLE IF NOT EXISTS comments (
     created_at TIMESTAMP NOT NULL,
     content TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS users(
