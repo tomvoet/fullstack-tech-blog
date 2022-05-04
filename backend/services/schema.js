@@ -1,8 +1,9 @@
 //const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, GraphQLNonNull } = require('graphql');
 
 const resolver = require('./resolver.js').resolver; // our resolver from resolver.js
+const { psql } = require('./psqlConnector.js')
 
 const User = new GraphQLObjectType({
     name: 'User',
@@ -72,4 +73,33 @@ const QueryRoot = new GraphQLObjectType({
     })
 })
 
-exports.schema = new GraphQLSchema({ query: QueryRoot });
+const MutationRoot = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: () => ({
+      user: {
+        type: User,
+        args: {
+          email: { type: new GraphQLNonNull(GraphQLString) },
+          username: { type: new GraphQLNonNull(GraphQLString) },
+          password_hash: { type: new GraphQLNonNull(GraphQLString) },
+          intro: { type: new GraphQLNonNull(GraphQLString) },
+        },
+        resolve: async (parent, args, context, resolveInfo) => {
+          try {
+            var date = new Date();
+            console.log(date.toISOString());
+            var result = await psql.query(`INSERT INTO users (email, username, password_hash, created_at, last_login, intro) VALUES ('${args.email}', '${args.username}', '${args.password_hash}', '${date.toISOString()}', '${date.toISOString()}', '${args.intro}') RETURNING *`)
+            return result[0];
+          } catch (err) {
+              console.log(err)
+            throw new Error("Failed to insert new user")
+          }
+        }
+      }
+    })
+  })
+
+exports.schema = new GraphQLSchema({ 
+    query: QueryRoot,
+    mutation: MutationRoot
+});
