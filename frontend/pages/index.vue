@@ -1,11 +1,12 @@
 <template>
-  <Header />
+  <div>
+    <NuxtLink to="/users">Users</NuxtLink>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 
-export default Vue.extend({
+export default ({
   name: 'IndexPage',
 })
 </script>

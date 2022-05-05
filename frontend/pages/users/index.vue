@@ -1,9 +1,5 @@
 <template>
-  <header>
-    <div class="rounded-xl">Hallo</div>
-    <NuxtLink class="text-2xl" to="/">Home</NuxtLink>
-    {{ users }}
-  </header>
+    <div>{{ users }}</div>
 </template>
 
 <script lang="ts">
