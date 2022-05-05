@@ -17,6 +17,8 @@ const User = new GraphQLObjectType({
         id: { type: GraphQLInt },
         username: { type: GraphQLString },
         email: { type: GraphQLString },
+        intro: { type: GraphQLString },
+        created_at: { type: GraphQLString },
         posts: {
             type: new GraphQLList(Post),
             extensions:{ 
@@ -69,6 +71,11 @@ const QueryRoot = new GraphQLObjectType({
         posts: {
             type: new GraphQLList(Post),
             resolve: resolver.posts
+        },
+        user: {
+            type: User,
+            args: { id: { type: GraphQLInt }, username: { type: GraphQLString } },
+            resolve: resolver.user
         }
     })
 })
