@@ -74,8 +74,27 @@ const QueryRoot = new GraphQLObjectType({
         },
         user: {
             type: User,
-            args: { id: { type: GraphQLInt }, username: { type: GraphQLString } },
+            args: { username: { type: GraphQLString } },
+            extensions: {
+                joinMonster: {        
+                    where: (userTable, args, context) => {
+                        if(args.username) { return `${userTable}.username = '${args.username}'` }
+                    },
+                }
+            },
             resolve: resolver.user
+        },
+        post: {
+            type: Post,
+            args: { cleaned_title: { type: GraphQLString } },
+            extensions: {
+                joinMonster: {        
+                    where: (postTable, args, context) => {
+                        if(args.cleaned_title) { return `${postTable}.cleaned_title = '${args.cleaned_title}'` }
+                    },
+                }
+            },
+            resolve: resolver.post
         }
     })
 })
