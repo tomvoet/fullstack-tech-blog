@@ -5,6 +5,11 @@
 <script lang="ts">
 
 export default {
+  head() {
+    return {
+      title: `${this.user.username}'s Profile`,
+    }
+  },
   async asyncData({params}: {params: {username: string}}) {
       const username = params.username
       var result = await fetch('http://localhost:4000/api', {
@@ -16,11 +21,11 @@ export default {
         query: `
             query { 
               user(username: "${username}") {
-                username,
-                intro,
-                created_at,
+                username
+                intro
+                created_at
                 posts {
-                  title,
+                  title
                 }
               }
             }
@@ -28,7 +33,7 @@ export default {
       }),
     })
     const body = await result.json()
-    const user = body.data;
+    const user = body.data.user;
     return { user }
   }
 }
