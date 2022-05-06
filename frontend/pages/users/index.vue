@@ -14,19 +14,19 @@
 import Vue from 'vue'
 
 export default {
-    head() {
-      return {
-        title: 'Users',
-      } 
-    },
-    async asyncData() {
-        var result = await fetch('http://localhost:4000/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: `
+  head() {
+    return {
+      title: 'Users',
+    }
+  },
+  async asyncData() {
+    var result = await fetch('http://localhost:4000/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
               query { 
                 users {
                   username,
@@ -37,12 +37,12 @@ export default {
                 }
               }
             `
-        }),
-      })
-      const body = await result.json()
-      const users = body.data.users;
-      return { users }
-    }
+      }),
+    })
+    const body = await result.json()
+    const users = body.data.users;
+    return { users }
+  }
 }
 
 </script>
