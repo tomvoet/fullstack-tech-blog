@@ -1,6 +1,7 @@
 <template>
   <div>
     <NuxtLink to="/users">Users</NuxtLink>
+    <NuxtLink to="/posts">Posts</NuxtLink>
   </div>
 </template>
 
